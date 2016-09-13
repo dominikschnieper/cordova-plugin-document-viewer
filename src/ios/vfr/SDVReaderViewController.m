@@ -1031,9 +1031,16 @@
         }
     }
     
-    //initialise with single page per screen
-    [self setPagesPerScreen: 1];
-    [self setViewMode:SDVReaderContentViewModeSinglePage];
+    //initialise with viewMode option or single page per screen
+    if ([[self.viewerOptions objectForKey:@"viewMode"] isEqualToString:@"CoverDoublePage"]) {
+        NSLog(@"[pdfviewer] viewMode: %@", [self.viewerOptions objectForKey:@"viewMode"]);
+        [self setPagesPerScreen:1]; // this is the minimum value
+        [self setViewMode:SDVReaderContentViewModeCoverDoublePage];
+    } else {
+        NSLog(@"[pdfviewer] viewMode: default");
+        [self setPagesPerScreen:1]; // this is the minimum value
+        [self setViewMode:SDVReaderContentViewModeSinglePage];
+    }
     
     CGRect scrollViewRect = CGRectInset(viewRect, -scrollViewOutset, 0.0f);
     theScrollView = [[UIScrollView alloc] initWithFrame:scrollViewRect]; // All
